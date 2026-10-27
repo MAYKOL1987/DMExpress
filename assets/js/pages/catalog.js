@@ -209,5 +209,18 @@ function setupEvents() {
     document.addEventListener('keydown', event => { if (event.key === 'Escape') closeCart(); });
     window.addEventListener('storage', event => { if (event.key === cartStorageKey) renderCart(); });
 }
-document.addEventListener('DOMContentLoaded', () => { const query = new URLSearchParams(location.search).get('q') || ''; state.search = query.toLocaleLowerCase(); ['searchInput', 'mobileSearch'].forEach(id => { const input = document.getElementById(id); if (input) input.value = query; }); setupEvents(); renderCart(); loadCatalog(); });
+function initializeCatalog() {
+    const query = new URLSearchParams(location.search).get('q') || '';
+    state.search = query.toLocaleLowerCase();
+    ['searchInput', 'mobileSearch'].forEach(id => {
+        const input = document.getElementById(id);
+        if (input) input.value = query;
+    });
+    setupEvents();
+    renderCart();
+    loadCatalog();
+}
+
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initializeCatalog, { once: true });
+else initializeCatalog();
 

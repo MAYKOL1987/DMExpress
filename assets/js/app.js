@@ -1,9 +1,9 @@
 const page = document.body.dataset.page;
 
 const pageModules = {
-    catalog: './pages/catalog.js?v=2',
-    product: './pages/product-detail.js?v=2',
-    tracking: './pages/tracking.js?v=2'
+    catalog: './pages/catalog.js?v=3',
+    product: './pages/product-detail.js?v=3',
+    tracking: './pages/tracking.js?v=3'
 };
 
 if (pageModules[page]) {

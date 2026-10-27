@@ -220,7 +220,7 @@ import { cartStorageKey, createStore } from '../core/store.js';
         }
     }
 
-    document.addEventListener('DOMContentLoaded', async () => {
+    async function initializeProductDetail() {
         const params = new URLSearchParams(location.search);
         const productId = params.get('codigodetalle');
         stockFromCatalog = Number(params.get('stock')) || 0;
@@ -294,7 +294,10 @@ import { cartStorageKey, createStore } from '../core/store.js';
             if (modal?.classList.contains('is-open') && event.key === 'ArrowRight') moveImage(1);
             if (modal?.classList.contains('is-open') && event.key === 'ArrowLeft') moveImage(-1);
         });
-    });
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initializeProductDetail, { once: true });
+    else initializeProductDetail();
 
     function openCart() {
         const panel = document.getElementById('cartOffcanvas');
