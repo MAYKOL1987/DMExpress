@@ -7,6 +7,9 @@ const STORE_CONTEXT = Object.freeze({
   idEstablecimiento: 1,
   tipoExistencia: '01',
 });
+// Enum detalleitems.TypeConsut de Helios. All_Product se serializa como 24
+// y el backend lo convierte al estado SQL "MPRODUCTO".
+const PRODUCT_QUERY_TYPE = 24;
 const CATEGORY_LIST_REQUEST = Object.freeze({
   idEmpresa: STORE_CONTEXT.idEmpresa,
   idEstablecimiento: STORE_CONTEXT.idEstablecimiento,
@@ -124,7 +127,7 @@ export async function fetchProducts() {
         tipoExistencia: STORE_CONTEXT.tipoExistencia,
         ActivarConteo: page === 1,
         UltimoConteo: totalRows,
-        QueryType: 0,
+        QueryType: PRODUCT_QUERY_TYPE,
       }),
     });
     if (!response.ok) throw new Error(`La API de productos respondió ${response.status}`);
@@ -143,9 +146,14 @@ export async function fetchProducts() {
       );
       remainingPages.push(...await Promise.all(pages));
     }
-    return [firstPage, ...remainingPages].flat().map(normalizeProduct);
+    const products = [firstPage, ...remainingPages].flat().map(normalizeProduct);
+    if (!products.length) {
+      throw new Error('La API respondió correctamente, pero no encontró productos para esta empresa, establecimiento y tipo de existencia.');
+    }
+    return products;
   } catch (error) {
     console.error('No se pudieron cargar los productos de DMExpress:', error);
+    if (error instanceof Error && error.message.startsWith('La API respondió correctamente')) throw error;
     throw new Error('No pudimos leer el catálogo de productos. Revisa la respuesta de store-estab-tipoex y CORS en IIS.', { cause: error });
   }
 }

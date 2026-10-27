@@ -65,8 +65,8 @@ using System.Web.Http.Cors;
 
 [EnableCors(
     origins: "https://tienda.tudominio.pe,http://localhost:5500",
-    headers: "accept,content-type",
-    methods: "post")]
+    headers: "accept,content-type,origin",
+    methods: "POST")]
 public IHttpActionResult ListaTotalItem(/* conserva los parámetros existentes */)
 {
     // Conserva el cuerpo actual de la acción.
