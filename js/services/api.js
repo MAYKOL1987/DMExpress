@@ -1,35 +1,68 @@
-/** API de DMExpress. La lista de categorías ya apunta al POST publicado en IIS. */
+/** API de DMExpress: productos y categorías publicados en IIS. */
 const API_BASE_URL = 'https://10446394229sanchezapi.spk.com.pe/';
 const CATEGORY_LIST_ENDPOINT = 'api/Category/ListaTotalItem';
-// Actualiza este objeto si el método documenta parámetros obligatorios.
-const CATEGORY_LIST_REQUEST = {};
-// El enlace de categoría no es un endpoint de productos; se mantiene catálogo demo
-// hasta conectar una ruta que devuelva los productos y sus imágenes/precios/tallas.
-const USE_MOCK_PRODUCTS = true;
-
-const mockProducts = [
-  { id: 'polo-urbano', name: 'Polo Urbano Essential', category: 'Ropa', price: 59, oldPrice: null, image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=85', description: 'Polo de algodón suave con corte clásico y acabado resistente. Una prenda versátil para combinar todos los días.', tag: 'Más vendido', color: 'Blanco', material: 'Algodón', sizes: ['S', 'M', 'L', 'XL'] },
-  { id: 'casaca-denim', name: 'Casaca Denim Street', category: 'Ropa', price: 159, oldPrice: 189, image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=900&q=85', description: 'Casaca denim de estilo urbano, con bolsillos funcionales y un corte cómodo para llevar en capas.', tag: 'Nuevo', color: 'Azul denim', material: 'Denim', sizes: ['S', 'M', 'L', 'XL'] },
-  { id: 'zapatillas-motion', name: 'Zapatillas Motion', category: 'Calzado', price: 189, oldPrice: null, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85', description: 'Zapatillas ligeras de inspiración deportiva, con suela cómoda para acompañarte durante todo el día.', tag: 'Edición urbana', color: 'Rojo y blanco', material: 'Textil y sintético', sizes: ['36', '37', '38', '39', '40', '41', '42'] },
-  { id: 'pantalon-cargo', name: 'Pantalón Cargo Move', category: 'Ropa', price: 139, oldPrice: null, image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=900&q=85', description: 'Pantalón cargo de calce relajado con bolsillos amplios y cintura cómoda. Listo para salir y moverte.', tag: 'Favorito', color: 'Oliva', material: 'Algodón', sizes: ['28', '30', '32', '34', '36'] },
-  { id: 'gorra-daily', name: 'Gorra Daily', category: 'Accesorios', price: 49, oldPrice: null, image: 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=900&q=85', description: 'Gorra de seis paneles con correa ajustable. El toque final para completar un look casual.', tag: '', color: 'Negro', material: 'Algodón', sizes: ['Única'] },
-  { id: 'mochila-city', name: 'Mochila City', category: 'Accesorios', price: 119, oldPrice: null, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=85', description: 'Mochila urbana con compartimento principal amplio y bolsillos para llevar lo esencial de tu día.', tag: 'Nuevo', color: 'Negro', material: 'Poliéster', sizes: ['Única'] },
-];
+const PRODUCTS_LIST_ENDPOINT = 'api/Product/store-estab-tipoex';
+const STORE_CONTEXT = Object.freeze({
+  idEmpresa: '10446394229',
+  idEstablecimiento: 1,
+  tipoExistencia: '01',
+});
+const CATEGORY_LIST_REQUEST = Object.freeze({
+  idEmpresa: STORE_CONTEXT.idEmpresa,
+  idEstablecimiento: STORE_CONTEXT.idEstablecimiento,
+});
+// El procedimiento espera RowsPerPage y PageNumber; el controlador usa Skip y Limit.
+const PRODUCTS_PER_PAGE = 48;
 
 function normalizeProduct(item, index = 0) {
+  const id = item.codigodetalle ?? item.id ?? item._id ?? index;
+  const generalPrice = Number(item.minPriceGeneral ?? item.MinPriceGeneral ?? 0);
+  const variantPrice = Number(item.minPriceVariant ?? item.MinPriceVariant ?? 0);
+  const minPrice = generalPrice > 0 ? generalPrice : variantPrice > 0 ? variantPrice : item.precioVenta ?? item.price ?? item.precio ?? 0;
+  const category = item.CategoriesList ?? item.categoriesList ?? item.category ?? item.categoria ?? item.tipoExistencia ?? 'General';
   return {
-    id: String(item.id ?? item._id ?? index),
-    name: item.name ?? item.nombre ?? 'Producto sin nombre',
-    category: item.category ?? item.categoria ?? 'Ropa',
-    price: Number(item.price ?? item.precio ?? 0),
+    id: String(id),
+    name: item.descripcionItem ?? item.name ?? item.nombre ?? 'Producto sin nombre',
+    category: Array.isArray(category) ? category[0] ?? 'General' : String(category).split(/[|,;]/)[0].trim(),
+    price: Number(minPrice) || 0,
     oldPrice: item.oldPrice == null ? null : Number(item.oldPrice),
-    image: item.image ?? item.imagen ?? '',
-    description: item.description ?? item.descripcion ?? '',
-    tag: item.tag ?? item.etiqueta ?? '',
+    image: normalizeProductImage(item.imgdef ?? item.image ?? item.imagen ?? ''),
+    description: item.description ?? item.descripcion ?? item.descripcionItem ?? '',
+    tag: item.tag ?? item.etiqueta ?? (item.IsFeatured ?? item.isFeatured ? 'Destacado' : ''),
     color: item.color ?? '',
     material: item.material ?? '',
     sizes: Array.isArray(item.sizes ?? item.tallas) ? (item.sizes ?? item.tallas) : [],
+    stock: Number(item.stockUnits ?? item.StockUnits ?? item.Stock ?? item.stock ?? 0),
+    code: String(item.codigoTributario ?? item.codigodetalle ?? ''),
+    unit: item.UM ?? item.um ?? '',
+    categoryIds: String(item.CategoriesListId ?? item.categoriesListId ?? item.categoryId ?? ''),
   };
+}
+
+function normalizeProductImage(image) {
+  if (typeof image === 'string') {
+    if (!image || image.startsWith('data:') || /^https?:\/\//i.test(image)) return image;
+    return `data:image/jpeg;base64,${image}`;
+  }
+  if (Array.isArray(image) && image.length) {
+    const bytes = Uint8Array.from(image);
+    let binary = '';
+    for (let offset = 0; offset < bytes.length; offset += 0x8000) {
+      binary += String.fromCharCode(...bytes.subarray(offset, offset + 0x8000));
+    }
+    return `data:image/jpeg;base64,${btoa(binary)}`;
+  }
+  return '';
+}
+
+function getProductRows(payload) {
+  if (Array.isArray(payload)) return payload;
+  if (!payload || typeof payload !== 'object') return [];
+
+  for (const key of ['data', 'Data', 'items', 'Items', 'results', 'Results', 'result', 'Result', 'products', 'Products', 'lista', 'Lista']) {
+    if (Array.isArray(payload[key])) return payload[key];
+  }
+  return [];
 }
 
 function getCategoryRows(payload) {
@@ -51,7 +84,7 @@ function getCategoryRows(payload) {
 
 function normalizeCategory(item, index = 0) {
   return {
-    id: String(item.id ?? item.Id ?? item.categoryId ?? item.CategoryId ?? index),
+    id: String(item.idItem ?? item.IdItem ?? item.id ?? item.Id ?? item.categoryId ?? item.CategoryId ?? index),
     name: String(item.categoryName ?? item.CategoryName ?? item.nombreCategoria ?? item.NombreCategoria ?? item.descripcionCategoria ?? item.DescripcionCategoria ?? item.name ?? item.Name ?? item.nombre ?? item.Nombre ?? item.category ?? item.Category ?? item.categoria ?? item.Categoria ?? item.descripcion ?? item.Descripcion ?? ''),
     totalItems: Number(item.totalItems ?? item.TotalItems ?? item.totalItem ?? item.TotalItem ?? item.itemCount ?? item.ItemCount ?? item.cantidad ?? item.Cantidad ?? item.count ?? item.Count ?? 0),
   };
@@ -78,8 +111,43 @@ export async function fetchCategories() {
 }
 
 export async function fetchProducts() {
-  if (USE_MOCK_PRODUCTS) return mockProducts.map(normalizeProduct);
-  throw new Error('Configura aquí el endpoint de productos de DMExpress.');
+  const fetchPage = async (page, totalRows = 0) => {
+    const response = await fetch(new URL(PRODUCTS_LIST_ENDPOINT, API_BASE_URL), {
+      method: 'POST',
+      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        // La API traduce Skip a RowsPerPage y Limit a PageNumber.
+        Skip: PRODUCTS_PER_PAGE,
+        Limit: page,
+        idEmpresa: STORE_CONTEXT.idEmpresa,
+        idEstablecimiento: STORE_CONTEXT.idEstablecimiento,
+        tipoExistencia: STORE_CONTEXT.tipoExistencia,
+        ActivarConteo: page === 1,
+        UltimoConteo: totalRows,
+        QueryType: 0,
+      }),
+    });
+    if (!response.ok) throw new Error(`La API de productos respondió ${response.status}`);
+    return getProductRows(await response.json());
+  };
+
+  try {
+    const firstPage = await fetchPage(1);
+    const totalRows = Number(firstPage[0]?.TotalRows ?? firstPage[0]?.totalRows ?? firstPage.length);
+    const pageCount = Math.ceil(totalRows / PRODUCTS_PER_PAGE);
+    const remainingPages = [];
+    for (let startPage = 2; startPage <= pageCount; startPage += 4) {
+      const pages = Array.from(
+        { length: Math.min(4, pageCount - startPage + 1) },
+        (_, index) => fetchPage(startPage + index, totalRows),
+      );
+      remainingPages.push(...await Promise.all(pages));
+    }
+    return [firstPage, ...remainingPages].flat().map(normalizeProduct);
+  } catch (error) {
+    console.error('No se pudieron cargar los productos de DMExpress:', error);
+    throw new Error('No pudimos leer el catálogo de productos. Revisa la respuesta de store-estab-tipoex y CORS en IIS.', { cause: error });
+  }
 }
 
 export async function fetchProductById(id) {

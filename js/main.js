@@ -45,17 +45,25 @@ async function init() {
     event.currentTarget.reset();
   });
   try {
-    setCatalogMessage('Cargando prendas…');
+    setCatalogMessage('Cargando catálogo…');
     allProducts = await fetchProducts();
-    setCatalogMessage(`${allProducts.length} prendas de demostración · consultando categorías…`);
     applyFilters();
     try {
       const categories = await fetchCategories();
+      const categoriesById = new Map(categories.map((category) => [category.id, category.name]));
+      allProducts = allProducts.map((product) => {
+        const categoryName = product.categoryIds
+          .split(/[|,;]/)
+          .map((id) => categoriesById.get(id.trim()))
+          .find(Boolean);
+        return categoryName ? { ...product, category: categoryName } : product;
+      });
       renderCategoryFilters(categories, document.querySelector('[data-category-filters]'), activeCategory);
-      setCatalogMessage(`${allProducts.length} prendas de demostración · ${categories.length} categorías recibidas desde DMExpress`);
+      applyFilters();
+      setCatalogMessage(`${allProducts.length} productos cargados desde DMExpress · ${categories.length} categorías`);
     } catch (error) {
       console.warn(error.message);
-      setCatalogMessage(`${allProducts.length} prendas de demostración · usando filtros locales`);
+      setCatalogMessage(`${allProducts.length} productos cargados desde DMExpress · filtros locales`);
     }
   } catch (error) {
     setCatalogMessage(error.message);
