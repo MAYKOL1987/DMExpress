@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#171715">
+    <title>Seguimiento de pedido | DMExpress</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./assets/css/dmexpress.css">
+</head>
+<body data-page="tracking"><div class="dm-store-topbar">
+    <div class="container-fluid d-flex justify-content-between"><span>Envíos a todo el Perú</span><span>Atención directa por WhatsApp</span></div>
+</div>
+
+<header class="dm-store-header">
+    <div class="container-fluid dm-header-inner">
+        <a class="dm-detail-brand" href="index.html" aria-label="DMExpress inicio">DM<span>Express</span></a>
+        <nav class="dm-store-links" aria-label="Navegación de seguimiento"><a href="index.html">Volver a la tienda</a></nav>
+        <a class="dm-detail-cart" href="index.html" aria-label="Volver a la tienda"><i class="fas fa-bag-shopping" aria-hidden="true"></i><span>Seguir comprando</span></a>
+    </div>
+</header>
+
+<main class="dm-tracking-page">
+    <section class="dm-tracking-card" aria-labelledby="trackingTitle">
+        <div class="dm-tracking-icon"><i class="fas fa-truck-fast" aria-hidden="true"></i></div>
+        <span class="dm-eyebrow">DMEXPRESS · ATENCIÓN DE PEDIDOS</span>
+        <h1 id="trackingTitle">Consulta tu pedido</h1>
+        <p class="dm-tracking-intro">Comparte la referencia de tu compra y el teléfono asociado. El vendedor te confirmará el estado del despacho y la fecha estimada de entrega.</p>
+
+        <div class="dm-tracking-note" role="note"><i class="fas fa-circle-info" aria-hidden="true"></i><span>Los pedidos se coordinan directamente por WhatsApp; por eso, el seguimiento se confirma con el vendedor y no se muestra una ubicación en tiempo real.</span></div>
+
+        <form id="trackingRequestForm" novalidate>
+            <div class="dm-tracking-field">
+                <label for="trackingOrderReference">Número o referencia del pedido</label>
+                <input id="trackingOrderReference" name="orderReference" type="text" maxlength="40" autocomplete="off" placeholder="Ej.: referencia acordada por WhatsApp" required>
+                <small class="dm-tracking-error" id="trackingOrderError" aria-live="polite"></small>
+            </div>
+            <div class="dm-tracking-field">
+                <label for="trackingCustomerPhone">Teléfono asociado al pedido</label>
+                <input id="trackingCustomerPhone" name="customerPhone" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" placeholder="Ej.: 966 557 413" required>
+                <small class="dm-tracking-error" id="trackingPhoneError" aria-live="polite"></small>
+            </div>
+            <button class="dm-tracking-submit" type="submit"><i class="fab fa-whatsapp" aria-hidden="true"></i> Consultar por WhatsApp</button>
+            <p class="dm-tracking-feedback" id="trackingFeedback" role="status" aria-live="polite"></p>
+        </form>
+        <a class="dm-tracking-back" href="index.html">Explorar productos</a>
+    </section>
+</main>
+
+<footer class="footer-dm">
+    <div class="container dm-footer-inner">
+        <a class="dm-detail-brand" href="index.html">DM<span>Express</span></a>
+        <p>Moda urbana y deportiva para expresar tu estilo.</p>
+        <small>© 2026 DMExpress · Pedidos directos por WhatsApp</small>
+    </div>
+</footer>
+
+
+<script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>
+
+

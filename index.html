@@ -1,85 +1,136 @@
 <!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f7f5f0" />
-    <meta name="description" content="Ropa y accesorios para moverte a tu manera. Compra online en DMExpress." />
-    <title>DMExpress — viste tu ritmo</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
-    <link rel="stylesheet" href="assets/css/styles.css" />
-    <script type="module" src="js/main.js"></script>
-  </head>
-  <body>
-    <div class="announcement">Envío gratis en compras mayores a S/ 250 <span aria-hidden="true">✦</span> Hecho para durar</div>
-    <header class="site-header">
-      <nav class="navbar navbar-expand-lg" aria-label="Navegación principal">
-        <div class="container">
-          <a class="navbar-brand brand" href="index.html" aria-label="DMExpress, inicio">DM<span>EXPRESS</span><i>.</i></a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Abrir menú"><span class="navbar-toggler-icon"></span></button>
-          <div class="collapse navbar-collapse" id="mainNav">
-            <ul class="navbar-nav mx-auto gap-lg-4">
-              <li class="nav-item"><a class="nav-link active" href="#productos">Tienda</a></li>
-              <li class="nav-item"><a class="nav-link" href="#historia">Nosotros</a></li>
-              <li class="nav-item"><a class="nav-link" href="#newsletter">Novedades</a></li>
-            </ul>
-            <a class="cart-link" href="cart.html" aria-label="Ver carrito">Carrito <span class="cart-count" data-cart-count>0</span><span aria-hidden="true">↗</span></a>
-          </div>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#171715">
+    <title>DMExpress | Moda urbana y deportiva</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./assets/css/dmexpress.css">
+</head>
+<body data-page="catalog"><div class="dm-store-topbar">
+    <div class="container-fluid d-flex justify-content-between"><span><i class="fas fa-truck-fast"></i> Envíos a todo el Perú</span><span>Atención directa por WhatsApp</span></div>
+</div>
+
+<section class="dm-brand-strip" aria-label="Marcas destacadas">
+    <span class="dm-brand-strip-label">MARCAS DESTACADAS</span>
+    <ul>
+        <li>adidas</li><li>Puma</li><li>Nike</li><li>Columbia</li><li>Terrex</li><li>Hoka</li><li>Salomon</li><li>ASICS</li><li>The North Face</li>
+    </ul>
+</section>
+
+<header class="dm-store-header">
+    <div class="container-fluid dm-header-inner">
+        <a class="dm-detail-brand" href="#inicio" aria-label="DMExpress inicio">DM<span>Express</span></a>
+        <button class="dm-menu-toggle" id="mobileMenuToggle" type="button" aria-expanded="false" aria-controls="storeNavigation" aria-label="Abrir menú"><i class="fas fa-bars" aria-hidden="true"></i></button>
+        <nav class="dm-store-links" id="storeNavigation" aria-label="Navegación principal"><a href="#inicio">Inicio</a><a href="#productos">Productos</a><a href="#contacto">Contacto</a></nav>
+        <div class="dm-header-actions">
+            <button class="dm-favorites-toggle" id="favoritesToggle" type="button" aria-pressed="false"><i class="far fa-heart" aria-hidden="true"></i><span>Favoritos</span></button>
+            <label class="dm-search"><i class="fas fa-search"></i><input type="search" id="searchInput" placeholder="Buscar productos" aria-label="Buscar productos"></label>
+            <a class="dm-tracking-link" href="tracking.html" aria-label="Consultar seguimiento de pedido"><i class="fas fa-truck-fast" aria-hidden="true"></i><span>Seguimiento</span></a>
+            <button id="btnCart" class="dm-detail-cart" type="button" aria-label="Abrir carrito"><i class="fas fa-bag-shopping"></i><span>Carrito</span><b id="cartCount">0</b></button>
         </div>
-      </nav>
-    </header>
+    </div>
+</header>
 
-    <main>
-      <section class="hero container">
-        <div class="hero-copy">
-          <p class="eyebrow"><span></span> NUEVA TEMPORADA · 2026</p>
-          <h1>Viste tu<br />propio <em>ritmo.</em></h1>
-          <p class="hero-description">Prendas y accesorios para todos tus días. Encuentra tu estilo, elige cómo moverte y recibe tu pedido donde estés.</p>
-          <a class="button-dark" href="#productos">Descubrir colección <span aria-hidden="true">↘</span></a>
-          <div class="hero-note"><span class="note-mark">✳</span><span>Tu estilo, sin pausa.<br /><strong>DMExpress lo lleva.</strong></span></div>
+<main>
+    <section class="dm-hero" id="inicio">
+        <div class="dm-hero-copy">
+            <span class="dm-eyebrow">NUEVA COLECCIÓN · DMEXPRESS</span>
+            <h1>Renueva tu look.<br><em>Marca tu estilo.</em></h1>
+            <p>Prendas urbanas y deportivas de tus marcas favoritas. Encuentra ese outfit que habla por ti.</p>
+            <a class="dm-hero-cta" href="#productos">Explorar colección <span aria-hidden="true">→</span></a>
         </div>
-        <div class="hero-visual">
-          <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=85" alt="Modelo vistiendo un look urbano de temporada" />
-          <div class="image-caption"><span>01 / DMX</span><span>Tu próximo look empieza aquí</span></div>
-          <div class="hero-sticker">TU<br />ESTILO.<br /><em>TU RITMO.</em></div>
+        <div class="dm-hero-art dm-hero-campaign" id="heroCarousel" role="region" aria-roledescription="carrusel" aria-label="Campaña de ropa deportiva">
+            <div class="dm-hero-slide is-active" data-hero-slide aria-hidden="false">
+                <img src="https://preview.thenewsmarket.com/Previews/ADID/StillAssets/1920x1440/693534_v2.jpg" alt="Grupo de atletas adidas corriendo juntos por un sendero al aire libre" fetchpriority="high">
+                <span class="dm-campaign-brand">adidas · TERREX</span>
+            </div>
+            <div class="dm-hero-slide" data-hero-slide aria-hidden="true" hidden>
+                <img src="https://static.nike.com/a/images/f_auto%2Ccs_srgb/w_1536%2Cc_limit/aaca6f99-91c0-439d-8742-2106a68098f7/faster-together-shalane-flanagan-and-bowerman-track-club.jpg" alt="Atletas Nike entrenando en equipo al aire libre" loading="lazy">
+                <span class="dm-campaign-brand">Nike</span>
+            </div>
+            <div class="dm-hero-slide" data-hero-slide aria-hidden="true" hidden>
+                <img src="https://about.puma.com/sites/default/files/media/gallery/low-res-2000x2000-25ss-br-brand-campaign-running-out-late-58180-rgb.png" alt="Grupo de corredores PUMA disfrutando una carrera urbana nocturna" loading="lazy">
+                <span class="dm-campaign-brand">PUMA</span>
+            </div>
+            <div class="dm-hero-slide" data-hero-slide aria-hidden="true" hidden>
+                <img src="https://media.columbia.com/i/columbiasprtswr/49503_COL_LP_Affiliates_Hero_SM?%24aem_pjpeg%24=&amp;hei=800&amp;scl=1.3980582524271845&amp;wid=1200" alt="Personas explorando al aire libre con ropa Columbia" loading="lazy">
+                <span class="dm-campaign-brand">Columbia</span>
+            </div>
+            <span class="dm-hero-caption">MUÉVETE<br>A TU MANERA</span>
+            <button class="dm-hero-arrow dm-hero-prev" type="button" data-hero-direction="-1" aria-label="Ver imagen anterior"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+            <button class="dm-hero-arrow dm-hero-next" type="button" data-hero-direction="1" aria-label="Ver imagen siguiente"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
+            <div class="dm-hero-pagination" role="group" aria-label="Elegir imagen de portada">
+                <button type="button" data-hero-to="0" aria-label="Imagen 1: adidas" aria-current="true"></button>
+                <button type="button" data-hero-to="1" aria-label="Imagen 2: Nike" aria-current="false"></button>
+                <button type="button" data-hero-to="2" aria-label="Imagen 3: PUMA" aria-current="false"></button>
+                <button type="button" data-hero-to="3" aria-label="Imagen 4: Columbia" aria-current="false"></button>
+            </div>
         </div>
-      </section>
+    </section>
 
-      <section class="trust-strip" aria-label="Beneficios de compra">
-        <div class="container trust-items"><span>✳&nbsp; Looks para cada día</span><span>↗&nbsp; Envíos a todo el Perú</span><span>♡&nbsp; Novedades cada temporada</span><span>⌁&nbsp; Compra segura</span></div>
-      </section>
-
-      <section class="products-section container" id="productos">
-        <div class="section-heading">
-          <div><p class="eyebrow">DESCUBRE DMEXPRESS</p><h2>Tu próximo look <em>te espera.</em></h2></div>
-          <p class="section-intro">Ropa, calzado y accesorios para armar combinaciones que hablan de ti.</p>
+    <section class="dm-catalog container-fluid" id="productos">
+        <div class="dm-section-heading"><div><span class="dm-eyebrow">SELECCIÓN DMEXPRESS</span><h2>Encuentra tu próximo favorito</h2></div><p>Estilo urbano y deportivo para todos los días.</p></div>
+        <div class="dm-mobile-search"><i class="fas fa-search"></i><input type="search" id="mobileSearch" placeholder="Buscar productos" aria-label="Buscar productos"></div>
+        <div class="dm-catalog-layout">
+            <button class="dm-filter-toggle" id="filterToggle" type="button" aria-expanded="false" aria-controls="catalogFilters">
+                <i class="fas fa-sliders" aria-hidden="true"></i><span>Filtros y categorías</span><i class="fas fa-chevron-down dm-filter-toggle-chevron" aria-hidden="true"></i>
+            </button>
+            <aside class="dm-filter-sidebar" id="catalogFilters" aria-label="Filtros de productos">
+                <div class="dm-filter-heading"><i class="fas fa-sliders" aria-hidden="true"></i><h3>Filtros</h3></div>
+                <section class="dm-filter-section" aria-labelledby="categoryFilterHeading">
+                    <h4 id="categoryFilterHeading">Categorías</h4>
+                    <nav id="categoryFilters" class="dm-category-tree" aria-label="Filtrar por categoría"></nav>
+                </section>
+                <section class="dm-filter-section dm-price-filter" aria-labelledby="priceFilterHeading">
+                    <h4 id="priceFilterHeading">Precio</h4>
+                    <label for="priceRange">Hasta <strong>S/ <span id="maxPriceVal">500</span></strong></label>
+                    <input type="range" id="priceRange" min="0" max="500" step="10" value="500">
+                    <div class="dm-price-ends"><span>S/ 0</span><span id="priceRangeMax">S/ 500</span></div>
+                </section>
+                <section class="dm-filter-section">
+                    <h4>Disponibilidad</h4>
+                    <label class="dm-stock-filter"><input type="checkbox" id="onlyStock"> Solo disponibles</label>
+                </section>
+                <button id="clearFiltersBtn" class="dm-clear-filters" type="button">Limpiar filtros</button>
+            </aside>
+            <div class="dm-catalog-results">
+                <div class="dm-catalog-toolbar">
+                    <p id="resultCount" aria-live="polite">Cargando catálogo...</p>
+                    <label class="dm-sort-control" for="sortSelect">Ordenar
+                        <select id="sortSelect" class="form-select"><option value="default">Recomendados</option><option value="price-asc">Menor precio</option><option value="price-desc">Mayor precio</option></select>
+                    </label>
+                </div>
+                <div id="productsGrid" class="products-grid" aria-live="polite"></div>
+                <nav id="productsPagination" class="dm-pagination" aria-label="Páginas de productos" hidden></nav>
+            </div>
         </div>
-        <div class="catalog-toolbar">
-          <div class="category-filters" role="group" aria-label="Filtrar por categoría" data-category-filters>
-            <button class="filter-chip active" type="button" data-category="Todos">Todo</button>
-            <button class="filter-chip" type="button" data-category="Ropa">Ropa</button>
-            <button class="filter-chip" type="button" data-category="Calzado">Calzado</button>
-            <button class="filter-chip" type="button" data-category="Accesorios">Accesorios</button>
-          </div>
-          <label class="search-box"><span aria-hidden="true">⌕</span><span class="visually-hidden">Buscar productos</span><input type="search" placeholder="Buscar un objeto..." data-product-search /></label>
-        </div>
-        <div class="catalog-message" data-catalog-message role="status" aria-live="polite"></div>
-        <div class="row g-4 product-grid" data-product-grid></div>
-        <div class="center-cta"><a class="button-outline" href="cart.html">Ver mi carrito <span aria-hidden="true">→</span></a></div>
-      </section>
+    </section>
+</main>
 
-      <section class="story-section" id="historia">
-        <div class="container story-inner"><div class="story-image"><img src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1100&q=85" alt="Selección de prendas de la colección DMExpress" loading="lazy" /></div><div class="story-copy"><p class="eyebrow">SOMOS DMEXPRESS</p><h2>Tu forma de ser.<br />Tu forma de <em>vestir.</em></h2><p>DMExpress reúne prendas y accesorios actuales para acompañarte en cada plan. Explora la colección, encuentra piezas que van contigo y recibe tu compra estés donde estés.</p><a class="text-link" href="#productos">Explora la colección <span aria-hidden="true">↗</span></a></div></div>
-      </section>
+<footer class="footer-dm" id="contacto">
+    <div class="container dm-footer-inner">
+        <a class="dm-detail-brand" href="#inicio">DM<span>Express</span></a>
+        <p>Moda urbana y deportiva para expresar tu estilo. Envíos a todo el Perú.</p>
+        <div class="dm-footer-social"><a href="https://instagram.com/" aria-label="Instagram DMExpress"><i class="fab fa-instagram"></i></a><a href="https://tiktok.com/" aria-label="TikTok DMExpress"><i class="fab fa-tiktok"></i></a></div>
+        <small>© 2026 DMExpress · Pedidos directos por WhatsApp</small>
+    </div>
+</footer>
 
-      <section class="newsletter-section container" id="newsletter"><div><p class="eyebrow">ENTÉRATE ANTES</p><h2>Nuevos looks.<br /><em>Primero en tu inbox.</em></h2></div><form class="newsletter-form" data-newsletter-form><label for="newsletter-email">Recibe lanzamientos, novedades y promociones de DMExpress.</label><div class="newsletter-input"><input id="newsletter-email" type="email" placeholder="Tu correo electrónico" required /><button type="submit" aria-label="Suscribirme">→</button></div><small data-newsletter-message role="status"></small></form></section>
-    </main>
+<aside class="offcanvas offcanvas-end" id="cartOffcanvas" aria-label="Carrito de compras">
+    <div class="offcanvas-header bg-dark text-white"><h2 class="offcanvas-title"><i class="fas fa-bag-shopping"></i> Tu carrito</h2><button type="button" class="btn-close btn-close-white dm-cart-close" aria-label="Cerrar carrito"></button></div>
+    <div class="offcanvas-body" id="cartItemsContainer"></div>
+    <div class="dm-cart-actions"><button id="clearCartBtn" class="btn btn-outline-secondary w-100 mb-2">Vaciar carrito</button><button id="whatsappBtn" class="btn btn-success w-100"><i class="fab fa-whatsapp"></i> Enviar pedido</button></div>
+</aside>
 
-    <footer class="site-footer"><div class="container footer-inner"><a class="brand" href="index.html">DM<span>EXPRESS</span><i>.</i></a><p>Tu estilo, a tu ritmo.</p><span>© 2026 DMExpress</span></div></footer>
-    <div class="toast-message" data-toast role="status" aria-live="polite"></div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-  </body>
+
+<script type="module" src="./assets/js/app.js"></script>
+</body>
 </html>
+
+

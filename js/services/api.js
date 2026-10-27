@@ -36,6 +36,7 @@ function normalizeProduct(item, index = 0) {
     material: item.material ?? '',
     sizes: Array.isArray(item.sizes ?? item.tallas) ? (item.sizes ?? item.tallas) : [],
     stock: Number(item.stockUnits ?? item.StockUnits ?? item.Stock ?? item.stock ?? 0),
+    variantCount: Number(item.countVariants ?? item.CountVariants ?? 0),
     code: String(item.codigoTributario ?? item.codigodetalle ?? ''),
     unit: item.UM ?? item.um ?? '',
     categoryIds: String(item.CategoriesListId ?? item.categoriesListId ?? item.categoryId ?? ''),
@@ -93,12 +94,13 @@ function normalizeCategory(item, index = 0) {
   };
 }
 
-export async function fetchCategories() {
+export async function fetchCategories({ signal } = {}) {
   const url = new URL(CATEGORY_LIST_ENDPOINT, API_BASE_URL);
   let response;
   try {
     response = await fetch(url, {
       method: 'POST',
+      signal,
       headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify(CATEGORY_LIST_REQUEST),
     });
@@ -113,10 +115,11 @@ export async function fetchCategories() {
   }
 }
 
-export async function fetchProducts() {
+export async function fetchProducts({ signal } = {}) {
   const fetchPage = async (page, totalRows = 0) => {
     const response = await fetch(new URL(PRODUCTS_LIST_ENDPOINT, API_BASE_URL), {
       method: 'POST',
+      signal,
       headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify({
         // La API traduce Skip a RowsPerPage y Limit a PageNumber.
@@ -158,8 +161,8 @@ export async function fetchProducts() {
   }
 }
 
-export async function fetchProductById(id) {
-  const products = await fetchProducts();
+export async function fetchProductById(id, options) {
+  const products = await fetchProducts(options);
   return products.find((product) => product.id === String(id)) ?? null;
 }
 
