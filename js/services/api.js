@@ -14,8 +14,8 @@ const CATEGORY_LIST_REQUEST = Object.freeze({
   idEmpresa: STORE_CONTEXT.idEmpresa,
   idEstablecimiento: STORE_CONTEXT.idEstablecimiento,
 });
-// El procedimiento espera RowsPerPage y PageNumber; el controlador usa Skip y Limit.
-const PRODUCTS_PER_PAGE = 48;
+// Replica el filtro que usa EcommerceDM/DMExpressProductos en el servidor.
+const PRODUCTS_PER_PAGE = 50;
 
 function normalizeProduct(item, index = 0) {
   const id = item.codigodetalle ?? item.id ?? item._id ?? index;
@@ -122,9 +122,8 @@ export async function fetchProducts({ signal } = {}) {
       signal,
       headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        // La API traduce Skip a RowsPerPage y Limit a PageNumber.
-        Skip: PRODUCTS_PER_PAGE,
-        Limit: page,
+        Skip: (page - 1) * PRODUCTS_PER_PAGE,
+        Limit: PRODUCTS_PER_PAGE,
         idEmpresa: STORE_CONTEXT.idEmpresa,
         idEstablecimiento: STORE_CONTEXT.idEstablecimiento,
         tipoExistencia: STORE_CONTEXT.tipoExistencia,
