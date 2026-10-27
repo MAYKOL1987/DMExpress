@@ -7,8 +7,9 @@ const store = createStore();
 const $ = selector => document.querySelector(selector);
 const money = value => `S/ ${Number(value || 0).toFixed(2)}`;
 const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
-const state = { products: [], search: '', category: 'all', expandedCategories: new Set(), maxPrice: 0, onlyStock: false, sort: 'default', favoritesOnly: false, page: 1 };
+const state = { products: [], categories: [], search: '', category: 'all', expandedCategories: new Set(), maxPrice: 0, onlyStock: false, sort: 'default', favoritesOnly: false, page: 1 };
 let backdrop;
+const categoryKey = value => String(value ?? '').trim().toLocaleLowerCase('es');
 
 function setLoading() {
     $('#productsGrid').setAttribute('aria-busy', 'true');
@@ -29,6 +30,20 @@ function setupPrice() {
     $('#maxPriceVal').textContent = String(max); $('#priceRangeMax').textContent = money(max);
 }
 function renderCategories() {
+    if (state.categories.length) {
+        const categoryButtons = state.categories.map(category => {
+            const count = state.products.filter(product => {
+                const hasId = String(product.categoryIds || '').split(/[|,;]/).map(id => id.trim()).includes(category.id);
+                const hasName = (product.categoryPath || [product.category]).some(name => categoryKey(name) === categoryKey(category.name));
+                return hasId || hasName;
+            }).length;
+            const selected = state.category === category.name;
+            return `<button type="button" class="dm-category-parent ${selected ? 'active' : ''}" data-category="${escapeHtml(category.name)}" aria-pressed="${selected}"><span>${escapeHtml(category.name)}</span><small>${count || Number(category.totalItems) || 0}</small></button>`;
+        }).join('');
+        $('#categoryFilters').innerHTML = `<button type="button" class="dm-category-parent dm-category-all ${state.category === 'all' ? 'active' : ''}" data-category="all" aria-pressed="${state.category === 'all'}"><span>Todas las categorías</span><small>${state.products.length}</small></button>${categoryButtons}`;
+        return;
+    }
+
     const tree = new Map();
     state.products.forEach(product => {
         const path = product.categoryPath?.length ? product.categoryPath : [product.category || 'Colección'];
@@ -57,7 +72,9 @@ function visibleProducts() {
     return state.products.filter(product => {
         const categoryPath = product.categoryPath?.length ? product.categoryPath : [product.category || 'Colección'];
         const selectedPath = state.category === 'all' ? [] : state.category.split(' > ');
-        const categoryMatch = !selectedPath.length || categoryPath.slice(0, selectedPath.length).join(' > ') === state.category;
+        const categoryMatch = !selectedPath.length || (state.categories.length
+            ? categoryPath.some(name => categoryKey(name) === categoryKey(state.category))
+            : categoryPath.slice(0, selectedPath.length).join(' > ') === state.category);
         return (!state.search || product.name.toLocaleLowerCase().includes(state.search)) && categoryMatch && product.price <= state.maxPrice && (!state.onlyStock || product.stock > 0) && (!state.favoritesOnly || store.favorites.includes(product.id));
     })
         .sort((a, b) => state.sort === 'price-asc' ? a.price - b.price : state.sort === 'price-desc' ? b.price - a.price : 0);
@@ -109,7 +126,12 @@ async function checkout() {
 }
 async function loadCatalog() {
     setLoading();
-    try { state.products = await productService.list(); setupPrice(); renderCategories(); renderProducts(); renderCart(); }
+    try {
+        const catalog = await productService.catalog();
+        state.products = catalog.products;
+        state.categories = catalog.categories;
+        setupPrice(); renderCategories(); renderProducts(); renderCart();
+    }
     catch (error) { console.error('Error cargando catálogo:', error); showError(error.message || 'Intenta de nuevo en unos momentos.'); }
 }
 function setupEvents() {

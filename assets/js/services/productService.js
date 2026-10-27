@@ -45,27 +45,39 @@ function toStoreProduct(product, categoriesById = new Map()) {
 
 async function loadCategories(signal) {
     try {
-        const categories = await fetchCategories({ signal });
-        return new Map(categories.map(category => [category.id, category.name]));
+        return await fetchCategories({ signal });
     } catch (error) {
         console.warn('Se cargarán los productos sin nombres de categoría.', error);
-        return new Map();
+        return [];
     }
+}
+
+async function loadCatalogData(signal) {
+    const [products, categories] = await Promise.all([
+        fetchProducts({ signal }),
+        loadCategories(signal)
+    ]);
+    const categoriesById = new Map(categories.map(category => [category.id, category.name]));
+    return {
+        products: products.map(product => toStoreProduct(product, categoriesById)).filter(product => product.id),
+        categories
+    };
 }
 
 export const productService = Object.freeze({
     async list({ signal } = {}) {
-        const [products, categoriesById] = await Promise.all([
-            fetchProducts({ signal }),
-            loadCategories(signal)
-        ]);
-        return products.map(product => toStoreProduct(product, categoriesById)).filter(product => product.id);
+        return (await loadCatalogData(signal)).products;
+    },
+
+    async catalog({ signal } = {}) {
+        return loadCatalogData(signal);
     },
 
     async getById(id, { signal } = {}) {
         const product = await fetchProductById(id, { signal });
         if (!product) throw new Error('No se encontró el producto solicitado.');
-        const categoriesById = await loadCategories(signal);
+        const categories = await loadCategories(signal);
+        const categoriesById = new Map(categories.map(category => [category.id, category.name]));
         return toStoreProduct(product, categoriesById);
     }
 });
