@@ -1,4 +1,4 @@
-import { fetchCategories, fetchProductById, fetchProducts } from '../../../js/services/api.js';
+import { fetchCategories, fetchProductById, fetchProducts } from './api.js';
 
 function categoryNameFor(product, categoriesById) {
     const ids = String(product.categoryIds || '').split(/[|,;]/).map(id => id.trim()).filter(Boolean);

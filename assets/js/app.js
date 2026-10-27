@@ -1,9 +1,9 @@
 const page = document.body.dataset.page;
 
 const pageModules = {
-    catalog: './pages/catalog.js',
-    product: './pages/product-detail.js',
-    tracking: './pages/tracking.js'
+    catalog: './pages/catalog.js?v=2',
+    product: './pages/product-detail.js?v=2',
+    tracking: './pages/tracking.js?v=2'
 };
 
 if (pageModules[page]) {
@@ -12,7 +12,7 @@ if (pageModules[page]) {
         const feedback = document.querySelector('[data-app-error]');
         if (feedback) {
             feedback.hidden = false;
-            feedback.textContent = 'No se pudo cargar esta sección. Recarga la página o vuelve a la tienda.';
+            feedback.textContent = `No se pudo cargar esta sección (${error.message}). Recarga la página o vuelve a la tienda.`;
         }
     });
 }
