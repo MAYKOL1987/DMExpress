@@ -3,14 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#171715">
+    <meta name="theme-color" content="#1a1a1a">
     <title>DMExpress | Moda urbana y deportiva</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/dmexpress.css">
+    <link rel="icon" type="image/png" href="./assets/images/dmexpress-icon.png">
 </head>
 <body data-page="catalog"><div class="dm-store-topbar">
     <div class="container-fluid d-flex justify-content-between"><span><i class="fas fa-truck-fast"></i> Envíos a todo el Perú</span><span>Atención directa por WhatsApp</span></div>
@@ -18,20 +19,30 @@
 
 <section class="dm-brand-strip" aria-label="Marcas destacadas">
     <span class="dm-brand-strip-label">MARCAS DESTACADAS</span>
-    <ul>
-        <li>adidas</li><li>Puma</li><li>Nike</li><li>Columbia</li><li>Terrex</li><li>Hoka</li><li>Salomon</li><li>ASICS</li><li>The North Face</li>
+    <button class="dm-brand-arrow" type="button" data-brand-direction="-1" aria-label="Ver marcas anteriores" aria-controls="brandCarousel" disabled><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+    <ul id="brandCarousel" tabindex="0" aria-label="Logotipos de marcas" aria-roledescription="carrusel">
+        <li><img src="./assets/images/marcas/adidas.svg" alt="adidas" loading="lazy" decoding="async"></li>
+        <li><img src="./assets/images/marcas/puma.svg" alt="Puma" loading="lazy" decoding="async"></li>
+        <li><img src="./assets/images/marcas/nike.svg" alt="Nike" loading="lazy" decoding="async"></li>
+        <li><img src="./assets/images/marcas/columbia.svg" alt="Columbia" loading="lazy" decoding="async"></li>
+        <li><img class="dm-brand-logo-small" src="./assets/images/marcas/terrex.svg" alt="Terrex" loading="lazy" decoding="async"></li>
+        <li><img class="dm-brand-logo-small" src="./assets/images/marcas/hoka.png" alt="HOKA" loading="lazy" decoding="async"></li>
+        <li><img src="./assets/images/marcas/salomon.svg" alt="Salomon" loading="lazy" decoding="async"></li>
+        <li><img class="dm-brand-logo-small" src="./assets/images/marcas/asics.svg" alt="ASICS" loading="lazy" decoding="async"></li>
+        <li><img src="./assets/images/marcas/thenorthface.png" alt="The North Face" loading="lazy" decoding="async"></li>
     </ul>
+    <button class="dm-brand-arrow" type="button" data-brand-direction="1" aria-label="Ver más marcas" aria-controls="brandCarousel"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
 </section>
 
 <header class="dm-store-header">
     <div class="container-fluid dm-header-inner">
-        <a class="dm-detail-brand" href="#inicio" aria-label="DMExpress inicio">DM<span>Express</span></a>
+        <a class="dm-detail-brand" href="#inicio" aria-label="DMExpress inicio"><img class="dm-brand-logo" src="./assets/images/dmexpress-logo.png" alt="DMExpress"></a>
         <button class="dm-menu-toggle" id="mobileMenuToggle" type="button" aria-expanded="false" aria-controls="storeNavigation" aria-label="Abrir menú"><i class="fas fa-bars" aria-hidden="true"></i></button>
         <nav class="dm-store-links" id="storeNavigation" aria-label="Navegación principal"><a href="#inicio">Inicio</a><a href="#productos">Productos</a><a href="#contacto">Contacto</a></nav>
         <div class="dm-header-actions">
             <button class="dm-favorites-toggle" id="favoritesToggle" type="button" aria-pressed="false"><i class="far fa-heart" aria-hidden="true"></i><span>Favoritos</span></button>
             <label class="dm-search"><i class="fas fa-search"></i><input type="search" id="searchInput" placeholder="Buscar productos" aria-label="Buscar productos"></label>
-            <a class="dm-tracking-link" href="tracking.html" aria-label="Consultar seguimiento de pedido"><i class="fas fa-truck-fast" aria-hidden="true"></i><span>Seguimiento</span></a>
+            <a class="dm-tracking-link" href="tracking.html" aria-label="Consultar seguimiento de pedido" title="Seguimiento"><i class="far fa-user" aria-hidden="true"></i><span>Seguimiento</span></a>
             <button id="btnCart" class="dm-detail-cart" type="button" aria-label="Abrir carrito"><i class="fas fa-bag-shopping"></i><span>Carrito</span><b id="cartCount">0</b></button>
         </div>
     </div>
@@ -116,7 +127,7 @@
 
 <footer class="footer-dm" id="contacto">
     <div class="container dm-footer-inner">
-        <a class="dm-detail-brand" href="#inicio">DM<span>Express</span></a>
+        <a class="dm-detail-brand" href="#inicio"><img class="dm-brand-logo" src="./assets/images/dmexpress-logo-footer.png" alt="DMExpress"></a>
         <p>Moda urbana y deportiva para expresar tu estilo. Envíos a todo el Perú.</p>
         <div class="dm-footer-social"><a href="https://instagram.com/" aria-label="Instagram DMExpress"><i class="fab fa-instagram"></i></a><a href="https://tiktok.com/" aria-label="TikTok DMExpress"><i class="fab fa-tiktok"></i></a></div>
         <small>© 2026 DMExpress · Pedidos directos por WhatsApp</small>
@@ -130,6 +141,7 @@
 </aside>
 
 
+<script type="module" src="./assets/js/pages/brand-carousel.js?v=1"></script>
 <script type="module" src="./assets/js/app.js?v=3"></script>
 </body>
 </html>
