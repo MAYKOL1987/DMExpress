@@ -23,13 +23,15 @@ function normalizeProduct(item, index = 0) {
   const variantPrice = Number(item.minPriceVariant ?? item.MinPriceVariant ?? 0);
   const minPrice = generalPrice > 0 ? generalPrice : variantPrice > 0 ? variantPrice : item.precioVenta ?? item.price ?? item.precio ?? 0;
   const category = item.CategoriesList ?? item.categoriesList ?? item.category ?? item.categoria ?? item.tipoExistencia ?? 'General';
+  const image = normalizeProductImage(item.imgdef ?? item.image ?? item.imagen ?? '');
   return {
     id: String(id),
     name: item.descripcionItem ?? item.name ?? item.nombre ?? 'Producto sin nombre',
     category: Array.isArray(category) ? category[0] ?? 'General' : String(category).split(/[|,;]/)[0].trim(),
     price: Number(minPrice) || 0,
     oldPrice: item.oldPrice == null ? null : Number(item.oldPrice),
-    image: normalizeProductImage(item.imgdef ?? item.image ?? item.imagen ?? ''),
+    image,
+    images: normalizeProductImages(item, image),
     description: item.description ?? item.descripcion ?? item.descripcionItem ?? '',
     tag: item.tag ?? item.etiqueta ?? (item.IsFeatured ?? item.isFeatured ? 'Destacado' : ''),
     color: item.color ?? '',
@@ -57,6 +59,27 @@ function normalizeProductImage(image) {
     return `data:image/jpeg;base64,${btoa(binary)}`;
   }
   return '';
+}
+
+function normalizeProductImages(item, primaryImage) {
+  const galleryKeys = ['productImages', 'ProductImages', 'productImage', 'ProductImage', 'images', 'Images', 'imagenes', 'Imagenes', 'fotos', 'Fotos', 'gallery', 'Gallery', 'imageList', 'ImageList', 'listaImagenes', 'ListaImagenes'];
+  const galleryKey = galleryKeys.find(key => item[key] != null && item[key] !== '');
+  const gallery = galleryKey ? item[galleryKey] : [];
+  const isByteArray = Array.isArray(gallery) && gallery.length && gallery.every(value => Number.isInteger(value) && value >= 0 && value <= 255);
+  const entries = Array.isArray(gallery) && !isByteArray ? gallery : gallery ? [gallery] : [];
+  const numberedImages = Object.entries(item)
+    .filter(([key, value]) => /^(img|image|imagen|foto|picture|photo)[\w-]*$/i.test(key) && !['imgdef', 'image', 'imagen'].includes(key.toLowerCase()) && value != null && value !== '')
+    .map(([, value]) => value);
+  entries.push(...numberedImages);
+  const images = entries.map(entry => {
+    const source = entry && typeof entry === 'object' && !Array.isArray(entry)
+      ? entry.image ?? entry.Image ?? entry.img ?? entry.Img ?? entry.url ?? entry.Url ?? entry.src ?? entry.Src ?? entry.base64 ?? entry.Base64 ?? entry.imagen ?? entry.Imagen ?? entry.foto ?? entry.Foto
+      : entry;
+    return normalizeProductImage(source);
+  }).filter(Boolean);
+  if (isByteArray) images.push(normalizeProductImage(gallery));
+  if (primaryImage) images.unshift(primaryImage);
+  return [...new Set(images)];
 }
 
 function getProductRows(payload) {

@@ -29,7 +29,7 @@ function toStoreProduct(product, categoriesById = new Map()) {
         stockUnits: Number(product.stock) || 0,
         image,
         fotoUrl: image,
-        productImage: [image],
+        productImage: product.images?.length ? product.images : [image],
         category: categoryPath[0],
         categoryPath,
         categoryIds: String(product.categoryIds || ''),
