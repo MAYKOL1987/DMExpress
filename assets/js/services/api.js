@@ -62,24 +62,46 @@ function normalizeProductImage(image) {
 }
 
 function normalizeProductImages(item, primaryImage) {
-  const galleryKeys = ['productImages', 'ProductImages', 'productImage', 'ProductImage', 'images', 'Images', 'imagenes', 'Imagenes', 'fotos', 'Fotos', 'gallery', 'Gallery', 'imageList', 'ImageList', 'listaImagenes', 'ListaImagenes'];
-  const galleryKey = galleryKeys.find(key => item[key] != null && item[key] !== '');
-  const gallery = galleryKey ? item[galleryKey] : [];
-  const isByteArray = Array.isArray(gallery) && gallery.length && gallery.every(value => Number.isInteger(value) && value >= 0 && value <= 255);
-  const entries = Array.isArray(gallery) && !isByteArray ? gallery : gallery ? [gallery] : [];
-  const numberedImages = Object.entries(item)
-    .filter(([key, value]) => /^(img|image|imagen|foto|picture|photo)[\w-]*$/i.test(key) && !['imgdef', 'image', 'imagen'].includes(key.toLowerCase()) && value != null && value !== '')
-    .map(([, value]) => value);
-  entries.push(...numberedImages);
-  const images = entries.map(entry => {
-    const source = entry && typeof entry === 'object' && !Array.isArray(entry)
-      ? entry.image ?? entry.Image ?? entry.img ?? entry.Img ?? entry.url ?? entry.Url ?? entry.src ?? entry.Src ?? entry.base64 ?? entry.Base64 ?? entry.imagen ?? entry.Imagen ?? entry.foto ?? entry.Foto
-      : entry;
-    return normalizeProductImage(source);
-  }).filter(Boolean);
-  if (isByteArray) images.push(normalizeProductImage(gallery));
-  if (primaryImage) images.unshift(primaryImage);
-  return [...new Set(images)];
+  const images = [];
+  const imageKey = /image|img|imagen|foto|picture|photo|gallery|galeria|media/i;
+  const addImage = value => {
+    if (typeof value !== 'string') return;
+    const source = value.trim();
+    const isImageUrl = /^(?:data:image\/|https?:\/\/)/i.test(source);
+    const isImageBase64 = source.length >= 80 && /^[A-Za-z0-9+/_=\s-]+$/.test(source);
+    if (!isImageUrl && !isImageBase64) return;
+    const normalized = normalizeProductImage(source);
+    if (normalized && !images.includes(normalized)) images.push(normalized);
+  };
+  const visit = (value, isImage = false, depth = 0) => {
+    if (value == null || depth > 7) return;
+    if (typeof value === 'string') {
+      if (isImage) {
+        const source = value.trim();
+        if (source.startsWith('[') || source.startsWith('{')) {
+          try { visit(JSON.parse(source), true, depth + 1); return; } catch { /* Puede ser una cadena y no una galería JSON. */ }
+        }
+        addImage(source);
+      }
+      return;
+    }
+    if (Array.isArray(value)) {
+      if (value.length && value.every(byte => Number.isInteger(byte) && byte >= 0 && byte <= 255)) {
+        const normalized = normalizeProductImage(value);
+        if (normalized && !images.includes(normalized)) images.push(normalized);
+        return;
+      }
+      value.forEach(entry => visit(entry, isImage, depth + 1));
+      return;
+    }
+    if (typeof value === 'object') {
+      Object.entries(value).forEach(([key, entry]) => visit(entry, isImage || imageKey.test(key), depth + 1));
+    }
+  };
+
+  visit(item);
+  if (primaryImage && !images.includes(primaryImage)) images.unshift(primaryImage);
+  return images;
 }
 
 function getProductRows(payload) {

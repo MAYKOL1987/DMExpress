@@ -1,8 +1,8 @@
 const page = document.body.dataset.page;
 
 const pageModules = {
-    catalog: './pages/catalog.js?v=4',
-    product: './pages/product-detail.js?v=4',
+    catalog: './pages/catalog.js?v=5',
+    product: './pages/product-detail.js?v=5',
     tracking: './pages/tracking.js?v=3'
 };
 

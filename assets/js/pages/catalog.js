@@ -144,20 +144,34 @@ function setupEvents() {
     if (heroCarousel) {
         const slides = [...heroCarousel.querySelectorAll('[data-hero-slide]')];
         const indicators = [...heroCarousel.querySelectorAll('[data-hero-to]')];
-        let activeSlide = 0;
-        heroCarousel.addEventListener('click', event => {
-            const direction = event.target.closest('[data-hero-direction]');
-            const target = event.target.closest('[data-hero-to]');
-            if (!direction && !target) return;
-            activeSlide = target ? Number(target.dataset.heroTo) : (activeSlide + Number(direction.dataset.heroDirection) + slides.length) % slides.length;
-            slides.forEach((slide, index) => {
-                const active = index === activeSlide;
+        let activeSlide = Math.max(0, slides.findIndex(slide => slide.classList.contains('is-active')));
+        let autoplayTimer;
+        const showSlide = index => {
+            activeSlide = (index + slides.length) % slides.length;
+            slides.forEach((slide, slideIndex) => {
+                const active = slideIndex === activeSlide;
                 slide.hidden = !active;
                 slide.classList.toggle('is-active', active);
                 slide.setAttribute('aria-hidden', String(!active));
             });
-            indicators.forEach((indicator, index) => indicator.setAttribute('aria-current', String(index === activeSlide)));
+            indicators.forEach((indicator, indicatorIndex) => indicator.setAttribute('aria-current', String(indicatorIndex === activeSlide)));
+        };
+        const stopAutoplay = () => window.clearInterval(autoplayTimer);
+        const startAutoplay = () => {
+            stopAutoplay();
+            if (slides.length > 1 && !document.hidden) {
+                autoplayTimer = window.setInterval(() => showSlide(activeSlide + 1), 5000);
+            }
+        };
+        heroCarousel.addEventListener('click', event => {
+            const direction = event.target.closest('[data-hero-direction]');
+            const target = event.target.closest('[data-hero-to]');
+            if (!direction && !target) return;
+            showSlide(target ? Number(target.dataset.heroTo) : activeSlide + Number(direction.dataset.heroDirection));
+            startAutoplay();
         });
+        document.addEventListener('visibilitychange', () => document.hidden ? stopAutoplay() : startAutoplay());
+        startAutoplay();
     }
     ['searchInput', 'mobileSearch'].forEach(id => { const input = document.getElementById(id); input?.addEventListener('input', () => { state.search = input.value.trim().toLocaleLowerCase(); state.page = 1; ['searchInput', 'mobileSearch'].forEach(other => { const el = document.getElementById(other); if (el && el !== input) el.value = input.value; }); renderProducts(); }); });
     $('#priceRange').addEventListener('input', event => { state.maxPrice = Number(event.target.value); state.page = 1; $('#maxPriceVal').textContent = String(state.maxPrice); renderProducts(); });
