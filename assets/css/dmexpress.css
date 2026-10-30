@@ -604,3 +604,40 @@ body:not([data-page="catalog"]) .dm-header-actions .dm-detail-cart b { position:
     .product-card .dm-product-visual { height: 190px; }
     .dm-card-image-arrow { width: 28px; height: 28px; opacity: 1; }
 }
+
+/* Vista de producto más compacta, con controles legibles y proporciones equilibradas. */
+@media (min-width: 768px) {
+    .dm-detail-grid {
+        width: 100%;
+        max-width: 870px;
+        grid-template-columns: minmax(0, 1fr) minmax(0, .95fr);
+        gap: clamp(24px, 4vw, 59px);
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .dm-gallery .main-image {
+        min-height: min(455px, 40.6vw);
+        padding: 17px;
+    }
+    .dm-gallery .main-image img { max-height: 399px; }
+    .thumbnail-button { width: 48px; height: 48px; }
+    .dm-thumbnails { gap: 7px; margin-top: 8px; }
+    .dm-product-panel { padding: 10px 0; }
+    .dm-product-panel h1 {
+        margin: 9px 0 11px;
+        font-size: clamp(1.5rem, 2.38vw, 2.1rem);
+    }
+    .dm-product-price-row { gap: 8px; }
+    .dm-product-price-row > strong { font-size: 1.2rem; }
+    .dm-product-description { margin: 14px 0 18px; font-size: .86rem; line-height: 1.6; }
+    .dm-choice-block { margin: 17px 0; }
+    .dm-choice-label { margin-bottom: 8px; font-size: .86rem; }
+    .dm-size-options { gap: 6px; }
+    .size-btn { min-width: 36px; min-height: 34px; padding: 6px 9px; }
+    .dm-quantity-control button { width: 30px; height: 29px; font-size: .95rem; }
+    .dm-quantity-control span { min-width: 27px; }
+    .dm-stock-note { margin-top: 7px; font-size: .72rem; }
+    .dm-product-actions { gap: 8px; margin-top: 19px; }
+    .dm-product-actions button { min-height: 40px; font-size: .86rem; }
+    .dm-purchase-note { gap: 8px; margin-top: 11px; padding: 9px; font-size: .75rem; line-height: 1.45; }
+}
