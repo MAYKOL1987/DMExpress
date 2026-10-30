@@ -38,7 +38,7 @@
 </header>
 
 <main class="container dm-detail-page">
-    <a href="index.html" class="dm-back-link"><i class="fas fa-arrow-left"></i> Volver a productos</a>
+    <a href="index.html#productos" class="dm-back-link"><i class="fas fa-arrow-left" aria-hidden="true"></i> Volver a productos</a>
     <div class="dm-detail-grid">
         <section class="dm-gallery" aria-label="Imágenes del producto">
             <button type="button" class="main-image" aria-label="Ampliar imagen del producto">
@@ -52,15 +52,13 @@
         </section>
 
         <section class="dm-product-panel">
-            <span class="dm-eyebrow">COLECCIÓN DMEXPRESS</span>
+            <div class="dm-product-heading-meta"><span class="dm-eyebrow" id="productBrand">DMEXPRESS</span><span class="dm-product-code" id="productCode"></span></div>
             <h1 id="nombre-producto">Cargando producto…</h1><p class="dm-product-load-error" id="productLoadError" role="alert" hidden>No se pudo cargar este producto. Verifica tu conexión o vuelve al catálogo.</p>
             <div class="dm-product-price-row">
-                <strong id="precioProducto">S/ 0.00</strong>
+                <strong id="precioProducto" aria-live="polite">S/ 0.00</strong>
                 <span class="old-price" id="precioEtiqueta"></span>
                 <span class="discount" id="Descuento"></span>
             </div>
-            <p class="dm-product-description" id="productDescription">Consulta los detalles y disponibilidad de este producto.</p>
-
             <div class="dm-choice-block">
                 <label class="dm-choice-label">Color</label>
                 <div id="colorOptions" class="dm-size-options"></div>
@@ -82,16 +80,16 @@
             </div>
 
             <div class="dm-product-actions">
-                <button type="button" class="btn-add" id="addToCartBtn"><i class="fas fa-bag-shopping"></i> Añadir al carrito</button>
-                <button type="button" class="btn-wa" id="whatsappBuyBtn"><i class="fab fa-whatsapp"></i> Comprar por WhatsApp</button>
+                <button type="button" class="btn-add" id="addToCartBtn"><i class="fas fa-bag-shopping" aria-hidden="true"></i> Añadir al carrito</button>
+                <button type="button" class="btn-wa" id="whatsappBuyBtn"><i class="fab fa-whatsapp" aria-hidden="true"></i> Comprar por WhatsApp</button>
             </div>
             <div class="dm-purchase-note"><i class="fas fa-comment-dots"></i><span>Finaliza tu pedido por WhatsApp. El vendedor confirmará stock, envío y pago.</span></div>
         </section>
     </div>
 
-    <section class="dm-detail-information">
-        <div class="dm-information-card" id="descripcion"><span class="dm-eyebrow">DETALLES</span><h2>Sobre el producto</h2><p>Consulta con nuestro equipo si necesitas más información.</p></div>
-        <div class="dm-information-card" id="especificaciones"><span class="dm-eyebrow">INFORMACIÓN</span><h2>Especificaciones</h2><ul></ul></div>
+    <section class="dm-detail-information" aria-label="Información del producto">
+        <details class="dm-info-accordion" id="descripcion" open><summary><span>Descripción del producto</span><i class="fas fa-chevron-down" aria-hidden="true"></i></summary><div class="dm-info-content"><p id="productDescription">Consulta con nuestro equipo si necesitas más información.</p></div></details>
+        <details class="dm-info-accordion" id="especificaciones"><summary><span>Características y especificaciones</span><i class="fas fa-chevron-down" aria-hidden="true"></i></summary><div class="dm-info-content"><ul></ul></div></details>
     </section>
 </main>
 
@@ -117,7 +115,7 @@
 
 <script type="module" src="./assets/js/pages/brand-carousel.js?v=1"></script>
 <script type="module" src="./assets/js/pages/shared-header.js?v=1"></script>
-<script type="module" src="./assets/js/app.js?v=5"></script>
+<script type="module" src="./assets/js/app.js?v=6"></script>
 </body>
 </html>
 

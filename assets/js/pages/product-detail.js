@@ -94,6 +94,9 @@ import { cartStorageKey, createStore } from '../core/store.js';
         const name = product.descripcionItem || 'Producto DMExpress';
         document.title = `${name} | DMExpress`;
         document.getElementById('nombre-producto').textContent = name;
+        document.getElementById('productBrand').textContent = product.brand || product.marcaRef || 'DMEXPRESS';
+        const productCode = product.codigoInterno || product.codigo || product.code;
+        document.getElementById('productCode').textContent = productCode ? `SKU: ${productCode}` : '';
         document.getElementById('precioProducto').textContent = money(productPrice());
         document.getElementById('productDescription').textContent = product.detailExplain || 'Diseñado para acompañarte con estilo y comodidad. Contáctanos por WhatsApp para resolver tus dudas.';
         const priceLabel = document.getElementById('precioEtiqueta');
@@ -154,7 +157,7 @@ import { cartStorageKey, createStore } from '../core/store.js';
         if (description) description.textContent = product.detailExplain || 'Consulta con nuestro equipo si necesitas más información sobre este producto.';
         const specs = document.querySelector('#especificaciones ul');
         if (specs) specs.innerHTML = [
-            ['Marca', product.marcaRef], ['Color', product.color], ['Talla', product.talla], ['Código', product.codigoInterno || product.codigo]
+            ['Marca', product.brand || product.marcaRef], ['Color', product.color], ['Talla', product.talla], ['Código', productCode]
         ].filter(([, value]) => value).map(([label, value]) => `<li><strong>${escapeHtml(label)}:</strong> ${escapeHtml(value)}</li>`).join('') || '<li>Consulta los detalles por WhatsApp.</li>';
         if (maxStock <= 0) {
             document.getElementById('addToCartBtn').disabled = true;

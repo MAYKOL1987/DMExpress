@@ -27,6 +27,7 @@ function normalizeProduct(item, index = 0) {
   return {
     id: String(id),
     name: item.descripcionItem ?? item.name ?? item.nombre ?? 'Producto sin nombre',
+    brand: item.marcaRef ?? item.MarcaRef ?? item.brand ?? item.Brand ?? item.marca ?? item.Marca ?? '',
     category: Array.isArray(category) ? category[0] ?? 'General' : String(category).split(/[|,;]/)[0].trim(),
     price: Number(minPrice) || 0,
     oldPrice: item.oldPrice == null ? null : Number(item.oldPrice),
