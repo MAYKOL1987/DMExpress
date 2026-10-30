@@ -230,8 +230,12 @@ function setupEvents() {
     window.addEventListener('storage', event => { if (event.key === cartStorageKey) renderCart(); });
 }
 function initializeCatalog() {
-    const query = new URLSearchParams(location.search).get('q') || '';
+    const params = new URLSearchParams(location.search);
+    const query = params.get('q') || '';
     state.search = query.toLocaleLowerCase();
+    state.favoritesOnly = params.get('favorites') === '1';
+    $('#favoritesToggle').setAttribute('aria-pressed', String(state.favoritesOnly));
+    $('#favoritesToggle').classList.toggle('active', state.favoritesOnly);
     ['searchInput', 'mobileSearch'].forEach(id => {
         const input = document.getElementById(id);
         if (input) input.value = query;

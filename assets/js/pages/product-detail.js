@@ -279,14 +279,6 @@ import { cartStorageKey, createStore } from '../core/store.js';
             openCart();
         });
         document.querySelector('#cartOffcanvas .dm-cart-close')?.addEventListener('click', closeCart);
-        const search = document.getElementById('searchGlobal');
-        const searchButton = search?.nextElementSibling;
-        const goToSearch = () => {
-            const term = search.value.trim();
-            window.location.href = `index.html${term ? `?q=${encodeURIComponent(term)}` : ''}`;
-        };
-        search?.addEventListener('keydown', event => { if (event.key === 'Enter') goToSearch(); });
-        searchButton?.addEventListener('click', goToSearch);
         document.getElementById('emptyCartBtn').addEventListener('click', () => { store.clearCart(); updateCart(); });
         document.getElementById('checkoutWhatsapp').addEventListener('click', () => { if (store.cart.length) sendWhatsApp(store.cart, store.cart.map(item => item.imagen)); });
         document.addEventListener('keydown', event => {

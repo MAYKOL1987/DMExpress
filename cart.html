@@ -1,11 +1,47 @@
 <!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="theme-color" content="#1a1a1a" />
-    <title>Tu carrito — DMExpress</title><link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" /><link rel="stylesheet" href="assets/css/styles.css" /><script type="module" src="js/cart-page.js"></script>
-  <link rel="icon" type="image/png" href="assets/images/dmexpress-icon.png" /></head>
-  <body><div class="announcement">NUEVOS LOOKS PARA TU TEMPORADA <span aria-hidden="true">✦</span> Envíos a todo el Perú</div><header class="site-header"><nav class="navbar navbar-expand-lg" aria-label="Navegación principal"><div class="container"><a class="navbar-brand brand" href="index.html"><img class="brand-logo" src="assets/images/dmexpress-logo.png" alt="DMExpress"></a><a class="cart-link ms-auto" href="cart.html" aria-current="page">Carrito <span class="cart-count" data-cart-count>0</span><span aria-hidden="true">↗</span></a></div></nav></header>
-    <main class="container subpage-main"><div class="breadcrumb-line"><a href="index.html">Inicio</a><span>/</span><span>Tu carrito</span></div><div class="cart-heading"><div><p class="eyebrow">CASI TUYO</p><h1>Tu <em>carrito.</em></h1></div><a class="text-link" href="index.html">← Seguir comprando</a></div><div data-cart-content></div></main>
-    <footer class="site-footer"><div class="container footer-inner"><a class="brand" href="index.html"><img class="brand-logo" src="assets/images/dmexpress-logo.png" alt="DMExpress"></a><p>Tu estilo, a tu ritmo.</p><span>© 2026 DMExpress</span></div></footer><div class="toast-message" data-toast role="status" aria-live="polite"></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script></body>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#1a1a1a">
+    <title>Tu carrito — DMExpress</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="stylesheet" href="./assets/css/dmexpress.css">
+    <link rel="icon" type="image/png" href="./assets/images/dmexpress-icon.png">
+    <script type="module" src="./js/cart-page.js"></script>
+</head>
+<body data-page="cart">
+<div class="dm-store-topbar"><div class="container-fluid d-flex justify-content-between"><span><i class="fas fa-truck-fast"></i> Envíos a todo el Perú</span><span>Atención directa por WhatsApp</span></div></div>
+<section class="dm-brand-strip" aria-label="Marcas destacadas">
+    <span class="dm-brand-strip-label">MARCAS DESTACADAS</span>
+    <button class="dm-brand-arrow" type="button" data-brand-direction="-1" aria-label="Ver marcas anteriores" aria-controls="brandCarousel" disabled><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+    <ul id="brandCarousel" tabindex="0" aria-label="Logotipos de marcas" aria-roledescription="carrusel">
+        <li><img src="./assets/images/marcas/adidas.svg" alt="adidas" loading="lazy" decoding="async"></li><li><img src="./assets/images/marcas/puma.svg" alt="Puma" loading="lazy" decoding="async"></li><li><img src="./assets/images/marcas/nike.svg" alt="Nike" loading="lazy" decoding="async"></li><li><img src="./assets/images/marcas/columbia.svg" alt="Columbia" loading="lazy" decoding="async"></li><li><img class="dm-brand-logo-small" src="./assets/images/marcas/terrex.svg" alt="Terrex" loading="lazy" decoding="async"></li><li><img class="dm-brand-logo-small" src="./assets/images/marcas/hoka.png" alt="HOKA" loading="lazy" decoding="async"></li><li><img src="./assets/images/marcas/salomon.svg" alt="Salomon" loading="lazy" decoding="async"></li><li><img class="dm-brand-logo-small" src="./assets/images/marcas/asics.svg" alt="ASICS" loading="lazy" decoding="async"></li><li><img src="./assets/images/marcas/thenorthface.png" alt="The North Face" loading="lazy" decoding="async"></li>
+    </ul>
+    <button class="dm-brand-arrow" type="button" data-brand-direction="1" aria-label="Ver más marcas" aria-controls="brandCarousel"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
+</section>
+<header class="dm-store-header">
+    <div class="container-fluid dm-header-inner">
+        <a class="dm-detail-brand" href="index.html#inicio" aria-label="DMExpress inicio"><img class="dm-brand-logo" src="./assets/images/dmexpress-logo.png" alt="DMExpress"></a>
+        <button class="dm-menu-toggle" id="mobileMenuToggle" type="button" aria-expanded="false" aria-controls="storeNavigation" aria-label="Abrir menú"><i class="fas fa-bars" aria-hidden="true"></i></button>
+        <nav class="dm-store-links" id="storeNavigation" aria-label="Navegación principal"><a href="index.html#inicio">Inicio</a><a href="index.html#productos">Productos</a><a href="index.html#contacto">Contacto</a></nav>
+        <div class="dm-header-actions">
+            <label class="dm-search"><i class="fas fa-search" aria-hidden="true"></i><input type="search" id="searchGlobal" placeholder="¿Qué estás buscando?" aria-label="Buscar productos" autocomplete="off"></label>
+            <button class="dm-favorites-toggle" id="globalFavoritesToggle" type="button" aria-label="Ver favoritos"><i class="far fa-heart" aria-hidden="true"></i><span>Favoritos</span></button>
+            <a class="dm-tracking-link" href="tracking.html" aria-label="Consultar seguimiento de pedido" title="Seguimiento"><i class="far fa-user" aria-hidden="true"></i><span>Seguimiento</span></a>
+            <a class="dm-detail-cart" href="cart.html" aria-current="page" aria-label="Abrir carrito"><i class="fas fa-bag-shopping" aria-hidden="true"></i><span>Carrito</span><b data-cart-count>0</b></a>
+        </div>
+    </div>
+</header>
+<main class="container subpage-main"><div class="breadcrumb-line"><a href="index.html">Inicio</a><span>/</span><span>Tu carrito</span></div><div class="cart-heading"><div><p class="eyebrow">CASI TUYO</p><h1>Tu <em>carrito.</em></h1></div><a class="text-link" href="index.html#productos">← Seguir comprando</a></div><div data-cart-content></div></main>
+<footer class="site-footer"><div class="container footer-inner"><a class="brand" href="index.html"><img class="brand-logo" src="./assets/images/dmexpress-logo.png" alt="DMExpress"></a><p>Tu estilo, a tu ritmo.</p><span>© 2026 DMExpress</span></div></footer><div class="toast-message" data-toast role="status" aria-live="polite"></div>
+<script type="module" src="./assets/js/pages/brand-carousel.js?v=1"></script>
+<script type="module" src="./assets/js/pages/shared-header.js?v=1"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
 </html>
